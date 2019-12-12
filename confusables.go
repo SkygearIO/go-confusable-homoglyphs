@@ -45,13 +45,13 @@ func IsMixedScript(str string, allowedAliases []string) bool {
 // preferredAliases can take an array of unicode block aliases to
 // be considered as your 'base' unicode blocks
 func IsConfusable(str string, greedy bool, preferredAliases []string) []ConfusableResult {
-	preferredAliasesSet := map[string]interface{}{}
+	preferredAliasesSet := map[string]struct{}{}
 	for _, a := range preferredAliases {
 		preferredAliasesSet[strings.ToUpper(a)] = struct{}{}
 	}
 
 	outputs := []ConfusableResult{}
-	checked := map[rune]interface{}{}
+	checked := map[rune]struct{}{}
 	for _, chr := range str {
 		if _, ok := checked[chr]; ok {
 			continue

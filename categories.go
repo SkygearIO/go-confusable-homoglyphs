@@ -35,7 +35,7 @@ func Category(chr rune) string {
 }
 
 func UniqueAliases(str string) []string {
-	aSet := map[string]interface{}{}
+	aSet := map[string]struct{}{}
 	for _, chr := range str {
 		aSet[Alias(chr)] = struct{}{}
 	}
