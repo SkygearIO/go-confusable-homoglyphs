@@ -10,6 +10,10 @@ type ConfusableResult struct {
 	Homoglyphs []Homoglyph `json:"homoglyphs"`
 }
 
+// IsMixedScript checks if str contains mixed-scripts content,
+// excluding script blocks aliases in allowedAliases.
+// E.g. ``B. C`` is not considered mixed-scripts by default: it contains characters
+// from Latin and Common, but Common is excluded by default.
 func IsMixedScript(str string, allowedAliases []string) bool {
 	if allowedAliases == nil {
 		allowedAliases = []string{"COMMON"}
@@ -33,6 +37,13 @@ func IsMixedScript(str string, allowedAliases []string) bool {
 	return count > 1
 }
 
+// IsConfusable check if str contains characters which might be confusable with
+// characters from preferredAliases.
+// If greedy is false, it will only return the first confusable character
+// found without looking at the rest of the string, greedy is true returns
+// all of them.
+// preferredAliases can take an array of unicode block aliases to
+// be considered as your 'base' unicode blocks
 func IsConfusable(str string, greedy bool, preferredAliases []string) []ConfusableResult {
 	preferredAliasesSet := map[string]interface{}{}
 	for _, a := range preferredAliases {
@@ -92,6 +103,9 @@ func IsConfusable(str string, greedy bool, preferredAliases []string) []Confusab
 	return outputs
 }
 
+// IsDangerous checks if str can be dangerous, i.e. is it not only mixed-scripts
+// but also contains characters from other scripts than the ones in preferredAliases
+// that might be confusable with characters from scripts in preferredAliases.
 func IsDangerous(str string, preferredAliases []string) bool {
 	confusablesResult := IsConfusable(str, false, preferredAliases)
 	return IsMixedScript(str, nil) && len(confusablesResult) > 0
