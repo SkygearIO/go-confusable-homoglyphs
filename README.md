@@ -14,6 +14,7 @@ Golang version of Python library https://github.com/vhf/confusable_homoglyphs
 package main
 
 import (
+	
 	"fmt"
 
 	confusable "github.com/skygeario/go-confusable-homoglyphs"
