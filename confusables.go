@@ -2,7 +2,6 @@ package confusablehomoglyphs
 
 import (
 	"bytes"
-	"fmt"
 	"strings"
 )
 
@@ -125,18 +124,15 @@ func SetConfusableToLatin(str string, preferredAliases []string) string {
 			convertedVal := checked[chr]
 			if convertedVal == "" {
 				outputs.WriteString(string(chr))
-				fmt.Println("char ", string(chr), "repeated - LATIN : ", outputs.String())
 				continue
 			} else {
 				outputs.WriteString(string(convertedVal))
-				fmt.Println("char ", string(chr), "repeated and not LATIN - changed : ", outputs.String())
 				continue
 			}
 		}
 
 		checked[chr] = ""
 		charAlias := Alias(chr)
-		fmt.Println(" chr : ", string(chr), " alias : ", charAlias)
 
 		for _, expectedAlias := range preferredAliases {
 			if charAlias != strings.ToUpper(expectedAlias) {
@@ -158,7 +154,6 @@ func SetConfusableToLatin(str string, preferredAliases []string) string {
 							if res := strings.EqualFold(a, "LATIN"); res {
 								if _, ok := preferredAliasesSet[a]; ok {
 									potentiallyConfusable = found
-									fmt.Println("converted LATIN character: ", potentiallyConfusable)
 									outputs.WriteString(string(latinChar))
 									checked[chr] = latinChar
 									break OUTER

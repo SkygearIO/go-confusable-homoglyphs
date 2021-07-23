@@ -135,9 +135,6 @@ func TestSetConfusableToLatin(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		fmt.Println("--------------------------------------------------------------------------------")
-		fmt.Println("c.str : ", c.str, " -- c.preferredAliases : ", c.preferredAliases)
-
 		latinResult := SetConfusableToLatin(c.str, c.preferredAliases)
 		isConfusable := len(latinResult) > 0
 		fmt.Println("ConfusableToLatin String =>  ", latinResult)
