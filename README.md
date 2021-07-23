@@ -36,9 +36,9 @@ func main() {
 
 	// detect confusable with preferred aliases
 	latinResult := confusable.SetConfusableToLatin("ρhishlabs", []string{"latin"})
-	fmt.Println(latinResult) // should be empty
+	fmt.Println(latinResult) // should show converted latin string result - phishlabs
 
 	latinResult = confusable.SetConfusableToLatin("ᑲankofamericα", []string{"latin"})
-	fmt.Println(latinResult) // should show confusable homoglyphs
+	fmt.Println(latinResult) // should show converted latin string result - bankofamerica
 }
 ```
