@@ -117,7 +117,6 @@ func SetConfusableToLatin(str string, preferredAliases []string) string {
 	checked := map[rune]string{}
 
 	for _, chr := range str {
-
 		// if character is already checked and if its converted to LATIN, then we use the LATIN value
 		// instead of converting again
 		if _, ok := checked[chr]; ok {

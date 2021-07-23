@@ -1,3 +1,8 @@
+Forked
+Forked from https://github.com/SkygearIO/go-confusable-homoglyphs on 20July2021 at this commit to support conversion of confusable characters to LATIN characters. We need this to support normalization of domains such as 'ρhishlabs' which include confusable characters such as ρ which is converted to LATIN p 'phishlabs'.
+
+SkygearIO (the author) is currently supporting to check if the characters are confusable characters within any character set.
+
 # confusable_homoglyphs
 
 Golang version of Python library https://github.com/vhf/confusable_homoglyphs
