@@ -103,7 +103,7 @@ func IsConfusable(str string, greedy bool, preferredAliases []string) []Confusab
 	return outputs
 }
 
-// ConfusableToLatinChar check if str contains characters which might be confusable with
+// SetConfusableToLatin check if str contains characters which might be confusable with
 // characters from preferredAliases and normalizes it to latin character.
 // it will return all of the confusable characters converted to LATIN.
 func SetConfusableToLatin(str string, preferredAliases []string) string {
