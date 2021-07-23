@@ -28,5 +28,12 @@ func main() {
 
 	confusables = confusable.IsConfusable("microsоft", false, []string{"latin", "common"})
 	fmt.Println(confusables) // should show confusable homoglyphs
+
+	// detect confusable with preferred aliases
+	latinResult := confusable.SetConfusableToLatin("ρhishlabs", []string{"latin"})
+	fmt.Println(latinResult) // should be empty
+
+	latinResult = confusable.SetConfusableToLatin("ᑲankofamericα", []string{"latin"})
+	fmt.Println(latinResult) // should show confusable homoglyphs
 }
 ```

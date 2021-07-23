@@ -1,7 +1,6 @@
 package confusablehomoglyphs
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -18,7 +17,6 @@ func TestIsMixedScript(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		fmt.Println("---------------------- case : ", c.str)
 		isMixedScript := IsMixedScript(c.str, c.allowedAliases)
 		if isMixedScript != c.isMixedScript {
 			t.Errorf("unexpected isMixedScript, string: %v, expected: %v, actual: %v\n", c.str, c.isMixedScript, isMixedScript)
@@ -71,63 +69,63 @@ func TestSetConfusableToLatin(t *testing.T) {
 	cases := []struct {
 		str              string
 		preferredAliases []string
-		isConfusable     bool
+		latinResult      string
 		checkingFunction func(string)
 	}{
-		{"paρa", []string{"latin"}, true, func(r string) {
+		{"paρa", []string{"latin"}, "papa", func(r string) {
 			if r[2] != 'p' {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
 		}},
-		{"ρhishlabs", []string{"latin"}, true, func(r string) {
+		{"ρhishlabs", []string{"latin"}, "phishlabs", func(r string) {
 			if r[0] != 'p' {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
 		}},
-		{"Abç", []string{"latin"}, true, func(r string) {
+		{"Abç", []string{"latin"}, "Abç", func(r string) {
 			if r[2] == 'ç' {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
 		}},
-		{"Alloα", []string{"latin"}, true, func(r string) {
+		{"Alloα", []string{"latin"}, "Alloa", func(r string) {
 			if r[4] != 'a' {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
 		}},
-		{"ᑲankofamericα", []string{"latin"}, true, func(r string) {
+		{"ᑲankofamericα", []string{"latin"}, "bankofamerica", func(r string) {
 			if r[0] != 'b' && r[12] != 'a' {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
 		}},
-		{"f1ipcaгt", []string{"latin"}, true, func(r string) {
+		{"f1ipcaгt", []string{"latin"}, "flipcart", func(r string) {
 			if r[1] != 'l' {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
 		}},
-		{"νegetables", []string{"latin"}, true, func(r string) {
+		{"νegetables", []string{"latin"}, "vegetables", func(r string) {
 			if r[0] != 'v' {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
 		}},
-		{"ոews", []string{"latin"}, true, func(r string) {
+		{"ոews", []string{"latin"}, "news", func(r string) {
 			if r[0] != 'n' {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
 		}},
-		{"amaz໐n", []string{"latin"}, true, func(r string) {
+		{"amaz໐n", []string{"latin"}, "amazon", func(r string) {
 			if r[4] != 'o' {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
 		}},
-		{"AlloΓ", []string{"latin"}, true, func(r string) {
+		{"AlloΓ", []string{"latin"}, "Allo", func(r string) {
 			if r != "Allo" {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
 		}},
-		{"ρτ.τ", []string{"greek", "common"}, true, func(r string) {}},
-		{"ρττ", []string{"greek"}, true, func(r string) {}},
-		{"Alloτ", []string{"latin"}, true, func(r string) {}},
-		{"ρττp", []string{"latin"}, true, func(r string) {
+		{"ρτ.τ", []string{"greek", "common"}, "ρτ.τ", func(r string) {}},
+		{"ρττ", []string{"greek"}, "ρττ", func(r string) {}},
+		{"Alloτ", []string{"latin"}, "Alloᴛ", func(r string) {}},
+		{"ρττp", []string{"latin"}, "pᴛᴛp", func(r string) {
 			if r[0] != 'p' && r[1] != 'T' && r[2] != 't' && r[3] != 'T' {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
@@ -136,10 +134,9 @@ func TestSetConfusableToLatin(t *testing.T) {
 
 	for _, c := range cases {
 		latinResult := SetConfusableToLatin(c.str, c.preferredAliases)
-		isConfusable := len(latinResult) > 0
 
-		if isConfusable != c.isConfusable {
-			t.Errorf("unexpected isConfusable, string: %v, expected: %v, actual: %v\n", c.str, c.isConfusable, isConfusable)
+		if latinResult != c.latinResult {
+			t.Errorf("unexpected latinResult, string: %v, expected: %v, actual: %v\n", c.str, c.latinResult, latinResult)
 		}
 		c.checkingFunction(latinResult)
 	}
