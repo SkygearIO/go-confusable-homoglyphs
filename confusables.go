@@ -1,6 +1,8 @@
 package confusablehomoglyphs
 
 import (
+	"bytes"
+	"fmt"
 	"strings"
 )
 
@@ -31,7 +33,6 @@ func IsMixedScript(str string, allowedAliases []string) bool {
 		if _, ok := allowedAliasesSet[ua]; ok {
 			continue
 		}
-
 		count++
 	}
 	return count > 1
@@ -101,6 +102,85 @@ func IsConfusable(str string, greedy bool, preferredAliases []string) []Confusab
 	}
 
 	return outputs
+}
+
+// ConfusableToLatinChar check if str contains characters which might be confusable with
+// characters from preferredAliases and normalizes it to latin character.
+// it will return all of the confusable characters converted to LATIN.
+func SetConfusableToLatin(str string, preferredAliases []string) string {
+	preferredAliasesSet := map[string]struct{}{}
+
+	for _, a := range preferredAliases {
+		preferredAliasesSet[strings.ToUpper(a)] = struct{}{}
+	}
+
+	var outputs bytes.Buffer
+	checked := map[rune]string{}
+
+	for _, chr := range str {
+
+		// if character is already checked and if its converted to LATIN, then we use the LATIN value
+		// instead of converting again
+		if _, ok := checked[chr]; ok {
+			convertedVal := checked[chr]
+			if convertedVal == "" {
+				outputs.WriteString(string(chr))
+				fmt.Println("char ", string(chr), "repeated - LATIN : ", outputs.String())
+				continue
+			} else {
+				outputs.WriteString(string(convertedVal))
+				fmt.Println("char ", string(chr), "repeated and not LATIN - changed : ", outputs.String())
+				continue
+			}
+		}
+
+		checked[chr] = ""
+		charAlias := Alias(chr)
+		fmt.Println(" chr : ", string(chr), " alias : ", charAlias)
+
+		for _, expectedAlias := range preferredAliases {
+			if charAlias != strings.ToUpper(expectedAlias) {
+
+				found, ok := confusablesData[string(chr)]
+				if !ok {
+					continue
+				}
+
+				var potentiallyConfusable []Homoglyph
+				if len(preferredAliasesSet) > 0 {
+					potentiallyConfusable = []Homoglyph{}
+				OUTER:
+					for _, d := range found {
+						for _, glyph := range d.C {
+							latinChar := d.C
+							a := Alias(glyph)
+
+							if res := strings.EqualFold(a, "LATIN"); res {
+								if _, ok := preferredAliasesSet[a]; ok {
+									potentiallyConfusable = found
+									fmt.Println("converted LATIN character: ", potentiallyConfusable)
+									outputs.WriteString(string(latinChar))
+									checked[chr] = latinChar
+									break OUTER
+								}
+							}
+						}
+					}
+				} else {
+					potentiallyConfusable = found
+				}
+
+				if len(potentiallyConfusable) > 0 {
+				}
+			}
+		}
+
+		if _, ok := preferredAliasesSet[charAlias]; ok {
+			outputs.WriteString(string(chr))
+			continue
+		}
+	}
+	return outputs.String()
 }
 
 // IsDangerous checks if str can be dangerous, i.e. is it not only mixed-scripts

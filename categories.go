@@ -20,7 +20,6 @@ func AliasesCategories(chr rune) (string, string) {
 				categoryData.Categories[categoryData.CodePointsRanges[m][3]]
 		}
 	}
-
 	return "Unknown", "Zzzz"
 }
 
