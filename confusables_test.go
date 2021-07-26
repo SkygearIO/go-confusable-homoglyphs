@@ -77,7 +77,7 @@ func TestSetConfusableToLatin(t *testing.T) {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
 		}},
-		{"ρhishlabs", []string{"latin"}, "phishlabs", func(r string) {
+		{"ρrakriti", []string{"latin"}, "prakriti", func(r string) {
 			if r[0] != 'p' {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
@@ -92,7 +92,7 @@ func TestSetConfusableToLatin(t *testing.T) {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
 		}},
-		{"ᑲankofamericα", []string{"latin"}, "bankofamerica", func(r string) {
+		{"ᑲeneticcα", []string{"latin"}, "beneticca", func(r string) {
 			if r[0] != 'b' && r[12] != 'a' {
 				t.Errorf("unexpected latin string: %v\n", r)
 			}
