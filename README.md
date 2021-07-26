@@ -37,10 +37,10 @@ func main() {
 	fmt.Println(confusables) // should show confusable homoglyphs
 
 	// detect confusable with preferred aliases
-	latinResult := confusable.SetConfusableToLatin("ρhishlabs", []string{"latin"})
-	fmt.Println(latinResult) // should show converted latin string result - phishlabs
+	latinResult := confusable.SetConfusableToLatin("ρrakriti", []string{"latin"})
+	fmt.Println(latinResult) // should show converted latin string result - prakriti
 
-	latinResult = confusable.SetConfusableToLatin("ᑲankofamericα", []string{"latin"})
-	fmt.Println(latinResult) // should show converted latin string result - bankofamerica
+	latinResult = confusable.SetConfusableToLatin("ᑲeneticcα", []string{"latin"})
+	fmt.Println(latinResult) // should show converted latin string result - beneticca
 }
 ```
